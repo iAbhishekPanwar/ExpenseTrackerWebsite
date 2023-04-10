@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
-const sequelize = require("./utils/database");
 
-const userController = require("./controllers/userController");
-const userModel = require("./models/userModel");
+const bodyParser = require("body-parser");
+const sequelize = require("./util/database");
+
 const userRouter = require("./router/userRouter");
 
 app.use(express.static("public"));
@@ -16,8 +15,7 @@ app.use("/user", userRouter);
 
 sequelize
   .sync()
-  .then(() => {
-    console.log("Database Synced!!!");
+  .then((result) => {
     app.listen(3000);
   })
   .catch((err) => console.log(err));

@@ -13,15 +13,22 @@ exports.postUserSignUp = (req, res, next) => {
   User.findOne({ where: { email: email } })
     .then((user) => {
       if (user) {
-        res.send(
-          `<script>alert('We're sorry, but that email is currently living its best life elsewhere.'); window.location.href='/'</script>`
-        );
+        res
+          .status(409)
+          .send(
+            `<script>alert('This email is already taken. Please choose another one.'); window.location.href='/'</script>`
+          );
       } else {
         User.create({
           name: name,
           email: email,
           password: password,
         });
+        res
+          .status(200)
+          .send(
+            `<script>alert('User Created Successfully!'); window.location.href='/'</script>`
+          );
       }
     })
     .catch((err) => console.log(err));
